@@ -3,18 +3,15 @@
 # This script requires a corpus file as input. The corpus file should
 # be tokenized and cleaned up (if required) with one token per line.
 # The script then generates a frequency list and stores it with the
-# same filename in the output directory.
+# name of the second argument.
 
-corpus=$1
-output_dir=$2
-
-# Create the output directory if it does not exist.
-mkdir -p ${output_dir}
+corpus_in=$1
+corpus_out=$2
 
 # Generate the frequency list based on the corpus.
 
-cat ${corpus}
+cat ${corpus_in}
         | sort \
         | uniq -c \
         | sort -n -r \
-        > ${output_dir}/${corpus}
+        > ${corpus_out}
