@@ -10,7 +10,7 @@ corpus_out=$2
 
 # Generate the frequency list based on the corpus.
 
-cat ${corpus_in}
+cat ${corpus_in} \
         | sort \
         | uniq -c \
         | sort -n -r \
