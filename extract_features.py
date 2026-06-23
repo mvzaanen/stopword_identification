@@ -3,6 +3,7 @@
 import argparse
 import csv
 from collections import Counter
+import math
 
 def read_text(file):
     return file.read().split()
@@ -59,6 +60,7 @@ def main():
         feature_names = ["word", "length"] # word itself and its length
         feature_names.append("tf") # absolute term frequency
         feature_names.append("ntf") # normalized term frequency
+        feature_names.append("lntf") # log normalized term frequency
         feature_names.append("rank") # rank
         feature_names.append("stopword") # whether the word is a stopword or not
         writer.writerow(feature_names)
@@ -73,6 +75,8 @@ def main():
             values.append(features["words"][word]["tf"])
             # ntf
             values.append(features["words"][word]["tf"]/features["total"])
+            # lntf
+            values.append(math.log(features["words"][word]["tf"]/features["total"]))
             # word rank
             values.append(features["words"][word]["rank"])
             # is stopword
