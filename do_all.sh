@@ -23,13 +23,14 @@ echo "Cleanup corpus"
     ${corpus_dir}/${corpus} \
     ${output_dir}/${corpus_base}.clean
 
-echo "Create frequency list"
-./create_frequency_list.sh \
-    ${output_dir}/${corpus_base}.clean \
-    ${output_dir}/${corpus_base}.freq
+#MOVED TO PYTHON SCRIPT
+#echo "Create frequency list"
+#./create_frequency_list.sh \
+#    ${output_dir}/${corpus_base}.clean \
+#    ${output_dir}/${corpus_base}.freq
 
 echo "Extract features"
 ./extract_features.py \
-  -f ${output_dir}/${corpus_base}.freq \
+  -t ${output_dir}/${corpus_base}.clean \
   -s ${stopword_dir}/${stopword} \
   -o ${output_dir}/${corpus_base}.csv
