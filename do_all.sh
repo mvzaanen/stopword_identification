@@ -8,27 +8,25 @@ stopword_dir="stopwords"
 stopword="english_stopwords.txt"
 
 corpus_dir="corpus"
-corpus="brown.txt"
+corpus="brown"
 corpus_base=`basename ${corpus}`
 
+intermediate_dir="intermediate"
 # This is the default output directory. Perhaps this will need to be
 # moved to a specific commandline argument.
 output_dir="out"
 
-# Create the output directory if it does not yet exist.
-mkdir -p ${output_dir}
+# Create directories if they does not yet exist.
+mkdir -p ${intermediate_dir}/${corpus}
+mkdir -p ${output_dir}/${corpus}
 
 echo "Cleanup corpus"
-./clean_up_corpus.sh \
-    ${corpus_dir}/${corpus} \
-    ${output_dir}/${corpus_base}.clean
+./prepare_corpus.py \
+    -i ${corpus_dir}/${corpus} \
+    -o ${intermediate_dir}/${corpus} \
+    -b # is brown corpus
 
-#MOVED TO PYTHON SCRIPT
-#echo "Create frequency list"
-#./create_frequency_list.sh \
-#    ${output_dir}/${corpus_base}.clean \
-#    ${output_dir}/${corpus_base}.freq
-
+# THIS DOES NOT WORK YET AS THE CORPUS IS IN INDIVIDUAL FILES
 echo "Extract features"
 ./extract_features.py \
   -t ${output_dir}/${corpus_base}.clean \
