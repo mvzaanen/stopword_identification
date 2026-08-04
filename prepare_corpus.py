@@ -9,7 +9,9 @@ def preprocess_brown(content):
     return re.sub(r"/[^ ]*", "", content)
 
 def preprocess(content):
-    return map(lambda t: t.lower(), content.split())
+    content = content.split()
+    content = [word for word in content if word.isalpha()]
+    return map(lambda t: t.lower(), content)
 
 def write_tokens(output, tokenlist):
     output.write_text("\n".join(tokenlist) , encoding="utf-8")
