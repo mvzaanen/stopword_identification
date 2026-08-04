@@ -3,13 +3,11 @@
 import argparse
 import csv
 from collections import Counter
+from pathlib import Path
 import math
 
-def read_text(file):
-    return file.read().split()
-
 def compute_frequency_list(text):
-    frequency = Counter(text)
+    frequency = Counter(text.splitlines())
     return frequency
 
 def compute_local_word_features(text, features):
@@ -26,9 +24,9 @@ def compute_local_word_features(text, features):
 def main():
     parser = argparse.ArgumentParser(description = 'Extract features from potential stop words.')
     parser.add_argument("-t", "--text",
-                        help = 'tokenized text file, one word per line',
+                        help = 'directory of tokenized text files, one word per line',
                         action = "store",
-                        metavar = "FILE",
+                        metavar = "DIR",
                         required = True)
     parser.add_argument("-s", "--stopword",
                         help = 'stopword list file',
@@ -43,8 +41,20 @@ def main():
 
     args = parser.parse_args()
 
-    with open(args.text, "r") as file:
-        text = read_text(file)
+    text = ""
+
+    # Define the directory path
+    dir_path = Path(args.text)
+
+    # Loop through all files in the directory
+    for file_path in dir_path.iterdir():
+        # Ensure it is a file, not a subfolder
+        if file_path.is_file():
+            print(f"--- Reading: {file_path.name} ---")
+            try:
+                text += file_path.read_text(encoding="utf-8")
+            except PermissionError:
+                None
 
     with open(args.stopword, "r") as file:
         stopwords = file.read().splitlines()

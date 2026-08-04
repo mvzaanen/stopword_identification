@@ -26,9 +26,8 @@ echo "Cleanup corpus"
     -o ${intermediate_dir}/${corpus} \
     -b # is brown corpus
 
-# THIS DOES NOT WORK YET AS THE CORPUS IS IN INDIVIDUAL FILES
 echo "Extract features"
 ./extract_features.py \
-  -t ${output_dir}/${corpus_base}.clean \
+  -t ${intermediate_dir}/${corpus} \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus_base}.csv
+  -o ${output_dir}/${corpus}/features.csv
