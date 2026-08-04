@@ -21,6 +21,37 @@ def compute_local_word_features(text, features):
         features["rank"] += 1
     return features
 
+def write_output(output, features, stopwords):
+    with open(output, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        # header
+        feature_names = ["word", "length"] # word itself and its length
+        feature_names.append("tf") # absolute term frequency
+        feature_names.append("ntf") # normalized term frequency
+        feature_names.append("lntf") # log normalized term frequency
+        feature_names.append("rank") # rank
+        feature_names.append("stopword") # whether the word is a stopword or not
+        writer.writerow(feature_names)
+
+        for word in features["words"].keys():
+            values = []
+            # word itself
+            values.append(word)
+            # word length
+            values.append(len(word))
+            # tf
+            values.append(features["words"][word]["tf"])
+            # ntf
+            values.append(features["words"][word]["tf"]/features["total"])
+            # lntf
+            values.append(math.log(features["words"][word]["tf"]/features["total"]))
+            # word rank
+            values.append(features["words"][word]["rank"])
+            # is stopword
+            values.append(word in stopwords)
+            writer.writerow(values)
+
+
 def main():
     parser = argparse.ArgumentParser(description = 'Extract features from potential stop words.')
     parser.add_argument("-t", "--text",
@@ -64,35 +95,7 @@ def main():
                 "rank": 1}
     features = compute_local_word_features(text, features)
 
-    with open(args.output, "w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        # header
-        feature_names = ["word", "length"] # word itself and its length
-        feature_names.append("tf") # absolute term frequency
-        feature_names.append("ntf") # normalized term frequency
-        feature_names.append("lntf") # log normalized term frequency
-        feature_names.append("rank") # rank
-        feature_names.append("stopword") # whether the word is a stopword or not
-        writer.writerow(feature_names)
-
-        for word in features["words"].keys():
-            values = []
-            # word itself
-            values.append(word)
-            # word length
-            values.append(len(word))
-            # tf
-            values.append(features["words"][word]["tf"])
-            # ntf
-            values.append(features["words"][word]["tf"]/features["total"])
-            # lntf
-            values.append(math.log(features["words"][word]["tf"]/features["total"]))
-            # word rank
-            values.append(features["words"][word]["rank"])
-            # is stopword
-            values.append(word in stopwords)
-            writer.writerow(values)
-
+    write_output(args.output, features, stopwords)
 
 if __name__ == '__main__':
     main()
