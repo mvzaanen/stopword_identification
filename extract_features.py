@@ -58,6 +58,28 @@ def compute_global_word_features(texts, features):
     return features
 
 
+def compute_combined_features(texts, features):
+    for word in features["words"].keys():
+        features["words"][word]["tf_n*df"] = features["words"][word]["tf_n"] * features["words"][word]["df"] 
+        features["words"][word]["tf_n*log_df"] = features["words"][word]["tf_n"] * features["words"][word]["log_df"] 
+        features["words"][word]["tf_n*idf"] = features["words"][word]["tf_n"] * features["words"][word]["idf"] 
+        features["words"][word]["tf_n*log_idf"] = features["words"][word]["tf_n"] * features["words"][word]["log_idf"] 
+        features["words"][word]["tf_l*df"] = features["words"][word]["tf_l"] * features["words"][word]["df"] 
+        features["words"][word]["tf_l*log_df"] = features["words"][word]["tf_l"] * features["words"][word]["log_df"] 
+        features["words"][word]["tf_l*idf"] = features["words"][word]["tf_l"] * features["words"][word]["idf"] 
+        features["words"][word]["tf_l*log_idf"] = features["words"][word]["tf_l"] * features["words"][word]["log_idf"] 
+        features["words"][word]["ntf_n*df"] = features["words"][word]["ntf_n"] * features["words"][word]["df"] 
+        features["words"][word]["ntf_n*log_df"] = features["words"][word]["ntf_n"] * features["words"][word]["log_df"] 
+        features["words"][word]["ntf_n*idf"] = features["words"][word]["ntf_n"] * features["words"][word]["idf"] 
+        features["words"][word]["ntf_n*log_idf"] = features["words"][word]["ntf_n"] * features["words"][word]["log_idf"] 
+        features["words"][word]["ntf_l*df"] = features["words"][word]["ntf_l"] * features["words"][word]["df"] 
+        features["words"][word]["ntf_l*log_df"] = features["words"][word]["ntf_l"] * features["words"][word]["log_df"] 
+        features["words"][word]["ntf_l*idf"] = features["words"][word]["ntf_l"] * features["words"][word]["idf"] 
+        features["words"][word]["ntf_l*log_idf"] = features["words"][word]["ntf_l"] * features["words"][word]["log_idf"] 
+    return features
+
+
+
 def write_output(output, features, frequency, stopwords):
     with open(output, "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -72,6 +94,22 @@ def write_output(output, features, frequency, stopwords):
         feature_names.append("log_df") # log normalized document frequency
         feature_names.append("idf") # absolute inverse document frequency
         feature_names.append("log_idf") # log inverse document frequency
+        feature_names.append("tf_n*df")
+        feature_names.append("tf_n*log_df")
+        feature_names.append("tf_n*idf")
+        feature_names.append("tf_n*log_idf")
+        feature_names.append("tf_l*df")
+        feature_names.append("tf_l*log_df")
+        feature_names.append("tf_l*idf")
+        feature_names.append("tf_l*log_idf")
+        feature_names.append("ntf_n*df")
+        feature_names.append("ntf_n*log_df")
+        feature_names.append("ntf_n*idf")
+        feature_names.append("ntf_n*log_idf")
+        feature_names.append("ntf_l*df")
+        feature_names.append("ntf_l*log_df")
+        feature_names.append("ntf_l*idf")
+        feature_names.append("ntf_l*log_idf")
         feature_names.append("rank") # rank
         feature_names.append("stopword") # whether the word is a stopword or not
         writer.writerow(feature_names)
@@ -131,6 +169,7 @@ def main():
     features = compute_stopword_feature(stopwords, features)
     features = compute_local_word_features(texts, frequency, features)
     features = compute_global_word_features(texts, features)
+    features = compute_combined_features(texts, features)
 
     write_output(args.output, features, frequency, stopwords)
 
