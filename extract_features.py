@@ -113,7 +113,6 @@ def main():
         text = ""
         # Ensure it is a file, not a subfolder
         if file_path.is_file():
-            print(f"--- Reading: {file_path.name} ---")
             try:
                 text += file_path.read_text(encoding="utf-8")
             except PermissionError:
