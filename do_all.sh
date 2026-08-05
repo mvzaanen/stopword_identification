@@ -17,17 +17,29 @@ intermediate_dir="intermediate"
 output_dir="out"
 
 # Create directories if they does not yet exist.
-mkdir -p ${intermediate_dir}/${corpus}
-mkdir -p ${output_dir}/${corpus}
 
 echo "Cleanup corpus"
+mkdir -p ${intermediate_dir}/${corpus}/original
 ./prepare_corpus.py \
     -i ${corpus_dir}/${corpus} \
-    -o ${intermediate_dir}/${corpus} \
+    -o ${intermediate_dir}/${corpus}/original \
+    -b # is brown corpus
+
+mkdir -p ${intermediate_dir}/${corpus}/split500
+./prepare_corpus.py \
+    -i ${corpus_dir}/${corpus} \
+    -o ${intermediate_dir}/${corpus}/split500 \
+    -p 500 \
     -b # is brown corpus
 
 echo "Extract features"
+mkdir -p ${output_dir}/${corpus}
 ./extract_features.py \
-  -t ${intermediate_dir}/${corpus} \
+  -t ${intermediate_dir}/${corpus}/original \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus}/features.csv
+  -o ${output_dir}/${corpus}/original.csv
+
+./extract_features.py \
+  -t ${intermediate_dir}/${corpus}/split500 \
+  -s ${stopword_dir}/${stopword} \
+  -o ${output_dir}/${corpus}/split500.csv
