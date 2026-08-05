@@ -26,7 +26,7 @@ def compute_stopword_feature(stopwords, frequency, features):
 
 
 def compute_local_word_features(text, frequency, features):
-    for word, count in frequency.items():
+    for word, count in frequency.most_common():
         features["words"][word]["word"] = word
         features["words"][word]["length"] = len(word)
         features["words"][word]["tf_n"] = count
