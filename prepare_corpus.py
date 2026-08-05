@@ -49,6 +49,7 @@ def main():
                         action='store_true')
 
     args = parser.parse_args()
+    random.seed(42)
 
     # Define the directory path
     dir_path = Path(args.input)
