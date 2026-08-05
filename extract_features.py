@@ -19,8 +19,8 @@ def initialize_features(frequency, features):
     return features
 
 
-def compute_stopword_feature(stopwords, frequency, features):
-    for word in frequency.keys():
+def compute_stopword_feature(stopwords, features):
+    for word in features["words"].keys():
         features["words"][word]["stopword"] = word in stopwords
     return features
 
@@ -41,12 +41,12 @@ def compute_local_word_features(text, frequency, features):
     return features
 
 
-def compute_global_word_features(texts, frequency, features):
+def compute_global_word_features(texts, features):
     N = len(texts)
     text_sets = []
     for text in texts:
         text_sets.append(set(text))
-    for word in frequency.keys():
+    for word in features["words"].keys():
         document_count = 0
         for text_set in text_sets:
             if word in text_set:
@@ -128,9 +128,9 @@ def main():
                 "total": 0,
                 "rank": 1}
     features = initialize_features(frequency, features)
-    features = compute_stopword_feature(stopwords, frequency, features)
+    features = compute_stopword_feature(stopwords, features)
     features = compute_local_word_features(texts, frequency, features)
-    features = compute_global_word_features(texts, frequency, features)
+    features = compute_global_word_features(texts, features)
 
     write_output(args.output, features, frequency, stopwords)
 
