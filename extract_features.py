@@ -37,7 +37,7 @@ def compute_local_word_features(text, frequency, features):
     # features that can only be computed when total is known
     for word in frequency.keys():
         features["words"][word]["ntf_n"] = features["words"][word]["tf_n"]/features["total"]
-        features["words"][word]["ntf_l"] = features["words"][word]["tf_l"]/features["total"]
+        features["words"][word]["ntf_l"] = 1 + math.log(features["words"][word]["ntf_n"])
     return features
 
 
