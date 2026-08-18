@@ -147,6 +147,7 @@ def main():
 
     logger = logging.getLogger(__name__)
     if args.debug:
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
         logger.setLevel(logging.DEBUG)  # Capture everything at the logger level
 
     texts = []
