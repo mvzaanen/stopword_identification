@@ -65,12 +65,14 @@ mkdir -p ${output_dir}/${corpus}
 ./extract_features.py \
   -t ${intermediate_dir}/${corpus}/original \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus}/original.csv
+  -o ${output_dir}/${corpus}/original.csv \
+  -d
 
 ./extract_features.py \
   -t ${intermediate_dir}/${corpus}/split500 \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus}/split500.csv
+  -o ${output_dir}/${corpus}/split500.csv \
+  -d
 
 
 echo "AFRIKAANS WIKI gbvh"
@@ -82,12 +84,14 @@ mkdir -p ${output_dir}/${corpus}
 ./extract_features.py \
   -t ${intermediate_dir}/${corpus}/original \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus}/original_gbvh.csv
+  -o ${output_dir}/${corpus}/original_gbvh.csv \
+  -d
 
 ./extract_features.py \
   -t ${intermediate_dir}/${corpus}/split500 \
   -s ${stopword_dir}/${stopword} \
-  -o ${output_dir}/${corpus}/split500_gbvh.csv
+  -o ${output_dir}/${corpus}/split500_gbvh.csv \
+  -d
 
 
 echo "SESOTHO WIKI"
