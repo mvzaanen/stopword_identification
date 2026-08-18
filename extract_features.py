@@ -156,7 +156,7 @@ def main():
     # Define the directory path
     dir_path = Path(args.text)
 
-    logging.info("Starting to read individual input files.")
+    logger.info("Starting to read individual input files.")
     # Loop through all files in the directory
     for file_path in dir_path.iterdir():
         text = ""
@@ -168,28 +168,28 @@ def main():
                 None
             texts.append(text.splitlines())
 
-    logging.info("Starting to read stopword file.")
+    logger.info("Starting to read stopword file.")
     with open(args.stopword, "r") as file:
         stopwords = file.read().splitlines()
 
-    logging.info("Starting to compute frequency list.")
+    logger.info("Starting to compute frequency list.")
     frequency = compute_frequency_list(texts)
-    logging.info("Starting to compute features.")
+    logger.info("Starting to compute features.")
     # Initialize features
     features = {"words": {},
                 "total": 0,
                 "rank": 1}
     features = initialize_features(frequency, features)
-    logging.info("Starting to compute stopword features.")
+    logger.info("Starting to compute stopword features.")
     features = compute_stopword_feature(stopwords, features)
-    logging.info("Starting to compute local word features.")
+    logger.info("Starting to compute local word features.")
     features = compute_local_word_features(texts, frequency, features)
-    logging.info("Starting to compute global word features.")
+    logger.info("Starting to compute global word features.")
     features = compute_global_word_features(texts, features)
-    logging.info("Starting to compute combined features.")
+    logger.info("Starting to compute combined features.")
     features = compute_combined_features(texts, features)
 
-    logging.info("Starting to write output.")
+    logger.info("Starting to write output.")
     write_output(args.output, features, frequency, stopwords)
 
 if __name__ == '__main__':
