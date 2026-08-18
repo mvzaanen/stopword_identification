@@ -146,7 +146,7 @@ def main():
     args = parser.parse_args()
 
     logger = logging.getLogger(__name__)
-    if args.debug
+    if args.debug:
         logger.setLevel(logging.DEBUG)  # Capture everything at the logger level
 
     texts = []
